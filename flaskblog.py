@@ -30,6 +30,7 @@ class Post(db.Model):
         return f"Post('{self.title}', '{self.date_posted}')"
 
 
+
 posts = [
     {
         'author': 'Naomi Watts',
