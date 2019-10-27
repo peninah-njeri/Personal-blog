@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+     {%if title %}
+    <title>Flask-blog - {{title}}</title>
+      {% else %}
+     <title>Flask-blog</title>
+      {% endif %}
+
 </head>
 <body>
+ {% block content %} {% endblock %}
 
 </body>
 </html>
