@@ -1,5 +1,7 @@
-from app import db
+from app import db, login_manager
 from datetime import datetime
+
+def load_user(user_id):
 
 
 class User(db.Model):

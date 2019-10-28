@@ -1,7 +1,7 @@
 from flask import render_template,url_for,flash,redirect
 from app.forms import RegistrationForm, LoginForm
 from app import app,db,bcrypt
-from app.models import User,Post
+from app.models import User
 
 posts = [
     {
