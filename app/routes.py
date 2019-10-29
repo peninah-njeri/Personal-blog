@@ -1,4 +1,6 @@
+import os
 from flask import render_template,url_for,flash,redirect
+import secrets
 from app.forms import RegistrationForm, LoginForm,UpdateAccountForm
 from app import app,db,bcrypt
 from app.models import User
@@ -62,11 +64,37 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/account")
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext =os.path.splitext(form_picture.filename)
+    picture_fn =random_hex + f_ext
+    picture_path =os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    form_picture.save(picture_path)
+    return picture_fn
+
+
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
     form=UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file =save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.user.username = form.username.data
+        current_user.user.email = form.email.data
+        db.session.commit()
+        flash('your account has been updated!','success')
+        return redirect(url_for('account'))
+
+    # elif request.method == 'GET':
+    #     form.username.data = current_user.username
+    #     form.email.data = current_user.email
     image_file = url_for('static',filename='profile_pics/'+ current_user.image_file)
     return render_template('account.html', title='account',
                            image_file=image_file, form=form)
 
+@app.route("/post/new")
+@login_required
+def new_post():
+    return render_template('create_post.html', title='New Post')
