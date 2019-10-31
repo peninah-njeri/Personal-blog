@@ -9,7 +9,7 @@
 ### View Live Site here
 
         To use this application, visit the live application link at:
-        Enjoy the application.
+        https://njeriblog.herokuapp.com/
         
 
 ## User Stories
